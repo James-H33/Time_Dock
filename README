@@ -1,0 +1,2 @@
+MySql New User statement
+INSERT INTO `users` (`id`, `username`, `email`, `password`) VALUES (NULL, 'rets', 'test@gmail.com', 'pass');
