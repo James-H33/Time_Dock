@@ -5,3 +5,15 @@ html
         script(type='text/javascript' src="/js/scripts.js")
         title Time Docker
     body
+        - if(currentUser) {
+            h2 #{currentUser.username}
+        - }
+
+        section.header-wrapper
+            div.header-display
+                div.header-brand
+                    a(href="/") Time Dock
+                div.header-links
+                    li: a(href="/login") Login
+                    li: a(href="/register") Register
+                    li: a(href="/logout") Logout
