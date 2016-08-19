@@ -12,12 +12,13 @@ const db = mysql.createConnection({
 
 passport.serializeUser(function(user, done) {
     console.log(user);
-    done(null, user.id);
+    done(null, user.username);
 });
 
-passport.deserializeUser(function(id, done) {
-    var sql = 'SELECT * FROM users WHERE id = ' + id;
+passport.deserializeUser(function(username, done) {
+    var sql = 'SELECT * FROM users WHERE username = "' + username + '"';
     db.query(sql, function(err, results) {
+        console.log(results);
         done(err, results[0]);
     });
 })
