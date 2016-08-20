@@ -1,3 +1,28 @@
 include ./partials/header
 
 h1 Hello Index!
+
+
+section.users-form-wrapper
+    div.users-form-display
+        h1 Get User Info
+        div.form-control
+            input(type="text" name="username" placeholder="username")
+        div.form-control
+            button#find-users-btn Get Users
+
+section.render-users
+
+
+section.add-user-wrapper
+    div.add-user-display
+        h1 Get User Info
+        form#form-data
+            div.form-control
+                input(type="text" name="username" placeholder="username" required)
+            div.form-control
+                input(type="email" name="email" placeholder="email" required)
+            div.form-control
+                input(type="password" name="password" placeholder="password" required)
+            div.form-control
+                button#add-user-btn Add User

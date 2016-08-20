@@ -10,11 +10,13 @@ const db = mysql.createConnection({
     database: 'timedocker'
 })
 
+// Store user in session by username
 passport.serializeUser(function(user, done) {
     console.log(user);
     done(null, user.username);
 });
 
+// Find user info in db and attach this info to req.user
 passport.deserializeUser(function(username, done) {
     var sql = 'SELECT * FROM users WHERE username = "' + username + '"';
     db.query(sql, function(err, results) {
