@@ -26,7 +26,10 @@ document.addEventListener('DOMContentLoaded', function(){
                             <h1 class="user-email"> ${data.email}</h1> `;
             this.$renderUsers.innerHTML = template;
         },
-        getRequests: function() {
+        getRequests: function(event) {
+            event.stopPropagation();
+            event.preventDefault();
+
             var iVal = this.$usersFormInput.value;
             if (iVal.trim().length === 0) {
                 return alert('Please enter a username');
@@ -49,12 +52,14 @@ document.addEventListener('DOMContentLoaded', function(){
             this.$addUserDisplay = document.querySelector('.add-user-display');
             this.$addUserInputs = document.querySelectorAll('.add-user-display input');
             this.$addUserBtn = document.querySelector('#add-user-btn');
+            this.$renderUser = document.querySelector('.render-add-user');
         },
         bindEvents: function() {
             this.$addUserBtn.addEventListener('click', this.postRequest.bind(this));
         },
-        render: function() {
-
+        render: function(message) {
+            var template = `<h1>${message}</h1>`;
+            this.$renderUser.innerHTML = template;
         },
         postRequest: function(event) {
             event.stopPropagation();
@@ -64,15 +69,15 @@ document.addEventListener('DOMContentLoaded', function(){
             var iVal = this.$addUserInputs;
             for(var i = 0; i < iVal.length; i++) {
                 if(iVal[i].name === 'username') {
-                    newUser.username = iVal[i].value;
+                    newUser.username = iVal[i].value.trim();
                     iVal[i].value = '';
                 }
                 if(iVal[i].name === 'email') {
-                    newUser.email = iVal[i].value;
+                    newUser.email = iVal[i].value.trim();
                     iVal[i].value = '';
                 }
                 if(iVal[i].name === 'password') {
-                    newUser.password = iVal[i].value;
+                    newUser.password = iVal[i].value.trim();
                     iVal[i].value = '';
                 }
             }
@@ -122,7 +127,15 @@ document.addEventListener('DOMContentLoaded', function(){
         http.send(JSON.stringify(newUser));
         http.onreadystatechange = function() {
             if(http.readyState === XMLHttpRequest.DONE && http.status === 200) {
-                console.log('Success');
+                var data = JSON.parse(http.responseText);
+                if(data.error) {
+                    console.log('Not successful');
+                    return AddUsers.render(data.error);
+                } else {
+                    console.log('Success');
+                    AddUsers.render('User Saved!');
+                }
+
             } else if(http.readyState === XMLHttpRequest.DONE) {
                 return alert('Amigo, you have made mistake somewhere');
             }

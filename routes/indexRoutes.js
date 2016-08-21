@@ -29,8 +29,14 @@ router.get('/userdata/:username', function(req, res, next) {
 router.post('/userdata', function(req, res, next) {
     var data = req.body;
     helpers.insertUser(data, function(err, results) {
-        if(err) console.log(err);
-        res.send(data);
+        if(err) {
+            console.log(err);
+        } else if(results.error) {
+            console.log(results);
+            return res.send(results);
+        }
+
+        return res.send(data);
     });
 });
 
